@@ -7,8 +7,7 @@ class TestWholeProgram(unittest.TestCase):
         expected = f.readlines()
         f.close()
         # TODO want to pass file names in at some point
-        prog = Program()
-        actual = prog.doit()
+        actual = do_it()
         for idx, line in enumerate(expected):
             self.assertEqual(line.rstrip(), actual[idx])
         return
