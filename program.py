@@ -32,20 +32,17 @@ class Program:
                 people.append((parts[0], parts[1],
                                "Female" if parts[3][0] == "F" else "Male",
                                dateFromMDY(parts[4].split('-')), parts[5]))
+        sorts = [
+            {'key': lambda p: (p[2],p[0])},
+            {'key': lambda p: p[3]},
+            {'key': lambda p: p[0], 'reverse': True}
+        ]
         output = []
-        output.append("Output 1:")
-        order1 = sorted(people, key=operator.itemgetter(0))
-        order1.sort(key=operator.itemgetter(2))
-        output.extend(map(stringifyPerson, order1))
-        output.append("")
-        output.append("Output 2:")
-        order2 = sorted(people, key=operator.itemgetter(3))
-        output.extend(map(stringifyPerson, order2))
-        output.append("")
-        output.append("Output 3:")
-        order3 = sorted(people, key=operator.itemgetter(0), reverse=True)
-        output.extend(map(stringifyPerson, order3))
-        output.append("")
+        for idx,sorter in enumerate(sorts):
+            output.append("Output %d:"%(idx+1))
+            sorted_people = sorted(people, **sorter)
+            output.extend(map(stringifyPerson, sorted_people))
+            output.append("")
         return output
 
 if __name__ == '__main__':
