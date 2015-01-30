@@ -16,14 +16,18 @@ def date_from_mdy(strs):
     return datetime.date(ints[2], ints[0], ints[1])
 
 def parse_gender(s):
-    return "Female" if s == "F" else "Male"
+    s = s.capitalize()
+    if s == "F": return "Female"
+    if s == "M": return "Male"
+    return s
 
 def do_it():
     people = []
     with open("input_files/comma.txt","r") as f:
         for line in f:
             parts = [l.strip() for l in line.split(',')] # hm, prefer map?
-            people.append(Person(parts[0], parts[1], parts[2],
+            people.append(Person(parts[0], parts[1],
+                                 parse_gender(parts[2]),
                                  date_from_mdy(parts[4].split('/')), parts[3]))
     with open("input_files/pipe.txt","r") as f:
         for line in f:
