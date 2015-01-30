@@ -12,8 +12,8 @@ def stringify_person(p):
     return " ".join(map(str, hack_tuple)) # last first gender dob color
 
 def date_from_mdy(strs):
-    ints = map(int, strs)
-    return datetime.date(ints[2], ints[0], ints[1])
+    month, day, year = map(int, strs)
+    return datetime.date(year, month, day)
 
 def parse_gender(s):
     s = s.capitalize()
