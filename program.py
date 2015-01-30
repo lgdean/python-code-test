@@ -15,6 +15,9 @@ def date_from_mdy(strs):
     ints = map(int, strs)
     return datetime.date(ints[2], ints[0], ints[1])
 
+def parse_gender(s):
+    return "Female" if s == "F" else "Male"
+
 def do_it():
     people = []
     with open("input_files/comma.txt","r") as f:
@@ -26,13 +29,13 @@ def do_it():
         for line in f:
             parts = [l.strip() for l in line.split('|')] # hm, prefer map?
             people.append(Person(parts[0], parts[1],
-                                 "Female" if parts[3][0] == "F" else "Male",
+                                 parse_gender(parts[3][0]),
                                  date_from_mdy(parts[5].split('-')), parts[4]))
     with open("input_files/space.txt","r") as f:
         for line in f:
             parts = [l.strip() for l in line.split(' ')] # hm, prefer map?
             people.append(Person(parts[0], parts[1],
-                                 "Female" if parts[3][0] == "F" else "Male",
+                                 parse_gender(parts[3][0]),
                                  date_from_mdy(parts[4].split('-')), parts[5]))
     sorts = [
         {'key': lambda p: (p.gender,p.last)},
