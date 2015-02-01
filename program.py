@@ -35,23 +35,23 @@ def person_from_record(record, date_sep):
                   date_from_mdy(record.dob.split(date_sep)),
                   record.fav_color)
 
+def people_from_file(file_name, sep, line_pattern, date_sep):
+    people = []
+    with open(file_name, "r") as f:
+        for line in f:
+            parts = [l.strip() for l in line.split(sep)]
+            record = line_pattern(*parts)
+            people.append(person_from_record(record, date_sep))
+    return people
+
 def do_it():
     people = []
-    with open("input_files/comma.txt","r") as f:
-        for line in f:
-            parts = [l.strip() for l in line.split(',')] # hm, prefer map?
-            record = CSVRecord(*parts)
-            people.append(person_from_record(record, '/'))
-    with open("input_files/pipe.txt","r") as f:
-        for line in f:
-            parts = [l.strip() for l in line.split('|')] # hm, prefer map?
-            record = PipeRecord(*parts)
-            people.append(person_from_record(record, '-'))
-    with open("input_files/space.txt","r") as f:
-        for line in f:
-            parts = [l.strip() for l in line.split(' ')] # hm, prefer map?
-            record = SpaceRecord(*parts)
-            people.append(person_from_record(record, '-'))
+    people.extend(people_from_file("input_files/comma.txt",
+                                   ',', CSVRecord, '/'))
+    people.extend(people_from_file("input_files/pipe.txt",
+                                   '|', PipeRecord, '-'))
+    people.extend(people_from_file("input_files/space.txt",
+                                   ' ', SpaceRecord, '-'))
     sorts = [
         {'key': lambda p: (p.gender,p.last)},
         {'key': lambda p: p.dob},
