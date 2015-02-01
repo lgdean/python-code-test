@@ -29,32 +29,29 @@ PipeRecord = namedtuple('PipeRecord',
 SpaceRecord = namedtuple('SpaceRecord',
                          ['last', 'first', 'm', 'gender', 'dob', 'fav_color'])
 
+def person_from_record(record, date_sep):
+    return Person(record.last, record.first,
+                  parse_gender(record.gender),
+                  date_from_mdy(record.dob.split(date_sep)),
+                  record.fav_color)
+
 def do_it():
     people = []
     with open("input_files/comma.txt","r") as f:
         for line in f:
             parts = [l.strip() for l in line.split(',')] # hm, prefer map?
             record = CSVRecord(*parts)
-            people.append(Person(record.last, record.first,
-                                 parse_gender(record.gender),
-                                 date_from_mdy(record.dob.split('/')),
-                                 record.fav_color))
+            people.append(person_from_record(record, '/'))
     with open("input_files/pipe.txt","r") as f:
         for line in f:
             parts = [l.strip() for l in line.split('|')] # hm, prefer map?
             record = PipeRecord(*parts)
-            people.append(Person(record.last, record.first,
-                                 parse_gender(record.gender),
-                                 date_from_mdy(record.dob.split('-')),
-                                 record.fav_color))
+            people.append(person_from_record(record, '-'))
     with open("input_files/space.txt","r") as f:
         for line in f:
             parts = [l.strip() for l in line.split(' ')] # hm, prefer map?
             record = SpaceRecord(*parts)
-            people.append(Person(record.last, record.first,
-                                 parse_gender(record.gender),
-                                 date_from_mdy(record.dob.split('-')),
-                                 record.fav_color))
+            people.append(person_from_record(record, '-'))
     sorts = [
         {'key': lambda p: (p.gender,p.last)},
         {'key': lambda p: p.dob},
