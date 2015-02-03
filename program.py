@@ -44,7 +44,7 @@ def people_from_file(file_name, sep, line_pattern, date_sep):
             people.append(person_from_record(record, date_sep))
     return people
 
-def do_it():
+def load_all_files():
     people = []
     people.extend(people_from_file("input_files/comma.txt",
                                    ',', CSVRecord, '/'))
@@ -52,6 +52,9 @@ def do_it():
                                    '|', PipeRecord, '-'))
     people.extend(people_from_file("input_files/space.txt",
                                    ' ', SpaceRecord, '-'))
+    return people
+
+def make_sorted_output(people):
     sorts = [
         {'key': lambda p: (p.gender,p.last)},
         {'key': lambda p: p.dob},
@@ -64,6 +67,10 @@ def do_it():
         output.extend(map(stringify_person, sorted_people))
         output.append("")
     return output
+
+def do_it():
+    people = load_all_files()
+    return make_sorted_output(people)
 
 if __name__ == '__main__':
     for line in do_it():
