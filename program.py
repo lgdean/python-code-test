@@ -35,12 +35,12 @@ def person_from_record(record, date_sep):
                   date_from_mdy(record.dob.split(date_sep)),
                   record.fav_color)
 
-def people_from_file(file_name, sep, line_pattern, date_sep):
+def people_from_file(file_name, sep, record_type, date_sep):
     people = []
     with open(file_name, "r") as f:
         for line in f:
-            parts = [l.strip() for l in line.split(sep)]
-            record = line_pattern(*parts)
+            parts = [s.strip() for s in line.split(sep)]
+            record = record_type(*parts)
             people.append(person_from_record(record, date_sep))
     return people
 
