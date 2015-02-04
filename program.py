@@ -21,14 +21,6 @@ def parse_gender(s):
     if s == "M": return "Male"
     return s
 
-# everything is a nail!
-CSVRecord = namedtuple('CSVRecord',
-                       ['last', 'first', 'gender', 'fav_color', 'dob'])
-PipeRecord = namedtuple('PipeRecord',
-                        ['last', 'first', 'm', 'gender', 'fav_color', 'dob'])
-SpaceRecord = namedtuple('SpaceRecord',
-                         ['last', 'first', 'm', 'gender', 'dob', 'fav_color'])
-
 def person_from_record(record, date_sep):
     return Person(record.last, record.first,
                   parse_gender(record.gender),
@@ -43,6 +35,14 @@ def people_from_file(file_name, sep, record_type, date_sep):
             record = record_type(*parts)
             people.append(person_from_record(record, date_sep))
     return people
+
+# everything is a nail!
+CSVRecord = namedtuple('CSVRecord',
+                       ['last', 'first', 'gender', 'fav_color', 'dob'])
+PipeRecord = namedtuple('PipeRecord',
+                        ['last', 'first', 'm', 'gender', 'fav_color', 'dob'])
+SpaceRecord = namedtuple('SpaceRecord',
+                         ['last', 'first', 'm', 'gender', 'dob', 'fav_color'])
 
 def load_all_files():
     people = []
